@@ -1,0 +1,1 @@
+mkdir sequences && mkdir checkpoints

@@ -1,0 +1,4 @@
+1 Triangle
+2 Burst
+3 Square
+4 Sine
