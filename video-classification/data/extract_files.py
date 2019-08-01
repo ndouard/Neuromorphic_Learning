@@ -73,7 +73,7 @@ def get_video_parts(video_path):
     """Given a full path to a video, return its parts."""
     parts = video_path.split(os.path.sep)
     filename = parts[2]
-    filename_no_ext = filename.split('.')[0]
+    filename_no_ext = os.path.splitext(filename)[0]
     classname = parts[1]
     train_or_test = parts[0]
 
