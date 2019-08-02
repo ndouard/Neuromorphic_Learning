@@ -36,7 +36,7 @@ def add_to_list_train(curr_file: str, id: int, f, len_to_discard: int):
     f.write(curr_file[len_to_discard:] + ' ' + id + '\n')  # python will convert \n to os.linesep
     
 def create_list(list_name: str, files_path: str, list_type: int):
-    with open(list_name, 'w') as f:
+    with open(list_name, 'w') as new_list:
         len_to_discard = len(files_path) + 1
 
         folders = [x[0] for x in walk(files_path)]
@@ -54,9 +54,9 @@ def create_list(list_name: str, files_path: str, list_type: int):
                 
                 # Write appropriate line to file depending on list type
                 if list_type == List.TRAIN:
-                    add_to_list_train(curr_file, str(curr_id), f, len_to_discard)
+                    add_to_list_train(curr_file, str(curr_id), new_list, len_to_discard)
                 elif list_type == List.TEST:
-                    add_to_list_test(curr_file, f, len_to_discard)
+                    add_to_list_test(curr_file, new_list, len_to_discard)
                 else:
                     raise SystemExit('Error: Invalid list type provided to create_list')
             curr_id += 1

@@ -111,8 +111,6 @@ video-classification/data/test/*
 video-classification/data/logs/*
 !video-classification/data/logs/README
 video-classification/data/checkpoints/*
-!video-classification/data/checkpoints/README
 video-classification/data/sequences/*
-!video-classification/data/sequences/README
 checkpoints/*
 !checkpoints/README

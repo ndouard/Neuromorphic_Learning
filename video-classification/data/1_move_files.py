@@ -1,70 +1,87 @@
 """
-After extracting the RAR, we run this to move all the files into
-the appropriate train/test folders.
+Run this to move all the files into the appropriate train/test subfolders.
 
 Should only run this file once!
 """
+
 import os
 import os.path
 
-def get_train_test_lists(version='01'):
+
+def get_class_list(version=''):
     """
     Using one of the train/test files (01, 02, or 03), get the filename
     breakdowns we'll later use to move everything.
     """
-    # Get our files based on version.
-    test_file = os.path.join('ucfTrainTestlist', 'testlist' + version + '.txt')
-    train_file = os.path.join('ucfTrainTestlist', 'trainlist' + version + '.txt')
+    class_filename = os.path.join('lists', 'classInd' + version + '.txt')
 
-    # Build the test list.
-    with open(test_file) as fin:
-        test_list = [row.strip() for row in list(fin)]
+    check_class_list(class_filename)
 
-    # Build the train list. Extra step to remove the class index.
-    with open(train_file) as fin:
-        train_list = [row.strip() for row in list(fin)]
-        train_list = [row.split(' ')[0] for row in train_list]
+    # Build list of classes
 
-    # Set the groups in a dictionary.
-    file_groups = {
-        'train': train_list,
-        'test': test_list
-    }
+    with open(class_filename) as f:
+        class_list = [line.strip().split()[1] for line in list(f)]
 
-    return file_groups
+    return class_list
 
-def move_files(file_groups):
-    """This assumes all of our files are currently in _this_ directory.
+
+def check_class_list(class_filename):
+    """
+    Ensures that the class file exists and is formatted correctly
+    """
+    # Ensure that class file exists
+    if not os.path.isfile(class_filename):
+        print('Error: Class file "' + class_filename + '" does not exist.')
+        quit()
+
+    # Ensure that each line in the class file is the proper length
+    with open(class_filename, 'r') as f:
+        lines = [line.strip().split() for line in list(f)]
+        for line in lines:
+            if len(line) != 2:
+                print('Error: Class file "' + class_filename + '" is formatted incorrectly.')
+                quit()
+
+
+def move_files(class_list: list, group: str):
+    """
+    This assumes all of our files are currently in train and test directories.
     So move them to the appropriate spot. Only needs to happen once.
     """
-    # Do each of our groups.
-    for group, videos in file_groups.items():
 
-        # Do each of our videos.
-        for video in videos:
+    # Test files
+    for filename in os.listdir(group):
+        # Only process video files
+        if not filename.endswith('.avi'):
+            continue
 
-            # Get the parts.
-            parts = video.split(os.path.sep)
-            classname = parts[0]
-            filename = parts[1]
+        # Determine class
+        class_name = ''
+        for class_name in class_list:
+            if class_name in filename:
+                class_name = class_name
+                break
 
-            # Check if this class exists.
-            if not os.path.exists(os.path.join(group, classname)):
-                print("Creating folder for %s/%s" % (group, classname))
-                os.makedirs(os.path.join(group, classname))
+        # Class could not be determined
+        if class_name == '':
+            print('Unknown class for "' + filename + '". Skipping.')
 
-            # Check if we have already moved this file, or at least that it
-            # exists to move.
-            if not os.path.exists(filename):
-                print("Can't find %s to move. Skipping." % (filename))
-                continue
+        # Check if this class exists
+        if not os.path.exists(os.path.join(group, class_name)):
+            print('Creating test folder for ' + class_name)
+            os.makedirs(os.path.join(group, class_name))
 
-            # Move it.
-            dest = os.path.join(group, classname, filename)
-            print("Moving %s to %s" % (filename, dest))
-            os.rename(filename, dest)
+        # Check if we have already moved this file, or at least that it
+        # exists to move.
+        if not os.path.exists(os.path.join(group, filename)):
+            print("Can't find %s to move. Skipping." % filename)
+            continue
 
-    print("Done.")
+        # Move file
+        dest = os.path.join(group, class_name, filename)
+        print("Moving %s to %s" % (filename, dest))
+        os.rename(os.path.join(group, filename), dest)
+
 
 def main():
     """
@@ -72,10 +89,14 @@ def main():
     to the right place.
     """
     # Get the videos in groups so we can move them.
-    group_lists = get_train_test_lists()
+    class_list = get_class_list()
 
     # Move the files.
-    move_files(group_lists)
+    move_files(class_list, 'test')
+    move_files(class_list, 'train')
+
+    print("Done.")
+
 
 if __name__ == '__main__':
     main()
