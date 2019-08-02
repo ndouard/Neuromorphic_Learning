@@ -46,7 +46,7 @@ def extract_files():
                     src = os.path.join(train_or_test, classname, filename)
                     dest = os.path.join(train_or_test, classname,
                         filename_no_ext + '-%04d.jpg')
-                    call(["C:\ffmpeg\bin\ffmpeg.exe", "-i", src, dest])
+                    call(["ffmpeg", "-i", src, dest])
 
                 # Now get how many frames it is.
                 nb_frames = get_nb_frames_for_video(video_parts)
@@ -73,7 +73,7 @@ def get_video_parts(video_path):
     """Given a full path to a video, return its parts."""
     parts = video_path.split(os.path.sep)
     filename = parts[2]
-    filename_no_ext = filename.split('.')[0]
+    filename_no_ext = os.path.splitext(filename)[0]
     classname = parts[1]
     train_or_test = parts[0]
 
