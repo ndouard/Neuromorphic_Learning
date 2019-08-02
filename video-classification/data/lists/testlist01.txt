@@ -1,0 +1,6 @@
+Burst/1.5V-1Hz-Burst-50degrees.avi
+Burst/1.5V-1Hz-Burst-55degrees.avi
+Burst/1.5V-1Hz-Burst-45degrees.avi
+Square/1.5V-1Hz-Square-55degrees.avi
+Square/1.5V-1Hz-Square-45degrees.avi
+Square/1.5V-1Hz-Square-50degrees.avi
