@@ -10,17 +10,31 @@ import os.path
 
 def get_class_list(version=''):
     """
-    Using one of the train/test files (01, 02, or 03), get the filename
-    breakdowns we'll later use to move everything.
+    Using one of the classInd files, attempt to move & create folders for each class file.
+    Will be unable to sort files if one class name is contained within another.
+    
+    Keyword arguments:
+    version -- which version of classInd to use. Leave empty to use "classInd"
     """
+    
     class_filename = os.path.join('lists', 'classInd' + version + '.txt')
 
     check_class_list(class_filename)
 
     # Build list of classes
-
     with open(class_filename) as f:
         class_list = [line.strip().split()[1] for line in list(f)]
+    
+    # Ensure that each class name is fully unique
+    # E.g. the name of one class is not contained within another
+    for single_class in class_list:
+        matches = [x for x in class_list if single_class in x]
+        if len(matches) > 1:
+            matches.remove(single_class)
+            print('Error: cannot automatically sort classes.\nClass "{}" is containted within {}'\
+                .format(single_class, matches))
+            print('Class names must be changed or sorted manually.')
+            quit()
 
     return class_list
 
@@ -29,6 +43,7 @@ def check_class_list(class_filename):
     """
     Ensures that the class file exists and is formatted correctly
     """
+    
     # Ensure that class file exists
     if not os.path.isfile(class_filename):
         print('Error: Class file "' + class_filename + '" does not exist.')
