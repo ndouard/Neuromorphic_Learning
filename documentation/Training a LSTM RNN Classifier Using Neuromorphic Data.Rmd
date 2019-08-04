@@ -35,13 +35,31 @@ output: pdf_document
 \sectionheader{Operations Summary}
 
 
-In order to achieve training, prepare data as described in the following ‘DataArchitecture Base Requirements’ section using external preparation tools as described inthe ‘External Preparation Tools’ section, if you wish to streamline the process. Oncedata is prepared, set desired training parameters following guidelines anddocumentation presented in the ‘Base Training Parameters’ section. You may, after this,run training as described in the ‘Execution’ section making sure you follow specificguidelines adequate in desired case.
+In order to achieve training, prepare data as described in the following ‘DataArchitecture Base Requirements’ section using external preparation tools as described in the ‘External Preparation Tools’ section, if you wish to streamline the process. Once data is prepared, set desired training parameters following guidelines and documentation presented in the ‘Base Training Parameters’ section. You may, after this,run training as described in the ‘Execution’ section making sure you follow specific guidelines adequate in desired case.
+
+
+\sectionheader{Python Dependencies}
+
+
+The following python libraries are required by the software:
+
+
+```
+Keras>=2.0.2
+numpy>=1.12.1
+pandas>=0.19.2
+tqdm>=4.11.2
+matplotlib>=2.0.0
+Pillow>=2.1.0
+h5py>=2.7.0
+ffmpeg-python>=0.2.0
+```
 
 
 \sectionheader{Data Architecture Base Requirements}
 
 
-The first step is to generate videos using AEDAT files as a source. This can beachieved using jAER in conjunction with a Python script built to handle the task automatically. You can install jEAR by running the 'install_jaer.sh' script. Once done, use the 'run_avi.py' script to generate videos. You can specify the number of events per frame you want to use here. Place generated AVI videos into the data folder, within adequate ‘train’ and ‘test’ subfolders, within class folders as define earlier.
+The first step is to generate videos using AEDAT files as a source. This can be achieved using jAER in conjunction with a Python script built to handle the task automatically. You can install jAER by running the 'install_jaer.sh' script. Once done, use the 'run_avi.py' script to generate videos. You can specify the number of events per frame you want to use here. Place generated AVI videos into the data folder, within adequate ‘train’ and ‘test’ subfolders, within class folders as define earlier.
 
 
 Next, prepare your lists. Locate the ‘list’ folder within the ‘data’ folder. Within said folder, create a ‘classInd.txt’ text file. This file will hold class indexes; each class should have a unique integer identifier and a one word name,  for example 'Pencil'. As a convention, we capitalize the first letter of each class. The below example is given for four classes.
@@ -92,10 +110,10 @@ The ‘early_stopper’ instantiation of ‘EarlyStopping’ has a ‘patience�
 
 The ‘main’ function definition holds the main training settings that must be set before running ‘train.py’.
 
->>* ‘model’ can be one of ‘lstm’, ‘lrcn’, ‘mlp’, ‘conv_3d’, ‘c3d’;
->>* ‘seq_length’ should be consistent with actual sequence length;
->>* ‘batch_size’ should be adequate considering number of training examples;
->>* ‘nb_epoch’ is a target likely to never be reached considering patience.
+>* ‘model’ can be one of ‘lstm’, ‘lrcn’, ‘mlp’, ‘conv_3d’, ‘c3d’;
+>* ‘seq_length’ should be consistent with actual sequence length;
+>* ‘batch_size’ should be adequate considering number of training examples;
+>* ‘nb_epoch’ is a target likely to never be reached considering patience.
 
 \sectionheader{Execution}
 

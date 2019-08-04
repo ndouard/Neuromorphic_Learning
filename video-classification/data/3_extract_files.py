@@ -1,7 +1,7 @@
 """
-After moving all the files using the 1_ file, we run this one to extract
-the images from the videos and also create a data file we can use
-for training and testing later.
+After moving all the files using the 1_ file and creating lists with
+2_ file, we run this one to extract the images from the videos and
+also create a data file we can use for training and testing later.
 """
 import csv
 import glob
