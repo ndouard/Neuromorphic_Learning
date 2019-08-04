@@ -53,13 +53,13 @@ def extract_files():
 
                 data_file.append([train_or_test, classname, filename_no_ext, nb_frames])
 
-                print("Generated %d frames for %s" % (nb_frames, filename_no_ext))
+                print("Generated {} frames for {}".format(nb_frames, filename_no_ext))
 
     with open('data_file.csv', 'w') as fout:
         writer = csv.writer(fout)
         writer.writerows(data_file)
 
-    print("Extracted and wrote %d video files." % (len(data_file)))
+    print("Extracted and wrote {} video files.".format((len(data_file))))
 
 def get_nb_frames_for_video(video_parts):
     """Given video parts of an (assumed) already extracted video, return

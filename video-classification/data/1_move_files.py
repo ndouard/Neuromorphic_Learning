@@ -83,18 +83,18 @@ def move_files(class_list: list, group: str):
 
         # Check if this class exists
         if not os.path.exists(os.path.join(group, class_name)):
-            print('Creating test folder for ' + class_name)
+            print('Creating test folder for {}...'.format(class_name))
             os.makedirs(os.path.join(group, class_name))
 
         # Check if we have already moved this file, or at least that it
         # exists to move.
         if not os.path.exists(os.path.join(group, filename)):
-            print("Can't find %s to move. Skipping." % filename)
+            print("Can't find {} to move. Skipping.".format(filename))
             continue
 
         # Move file
         dest = os.path.join(group, class_name, filename)
-        print("Moving %s to %s" % (filename, dest))
+        print("Moving {} to {}".format(filename, dest))
         os.rename(os.path.join(group, filename), dest)
 
 
