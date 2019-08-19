@@ -1,7 +1,7 @@
 """
-After moving all the files using the 1_ file, we run this one to extract
-the images from the videos and also create a data file we can use
-for training and testing later.
+After moving all the files using the 1_ file and creating lists with
+2_ file, we run this one to extract the images from the videos and
+also create a data file we can use for training and testing later.
 """
 import csv
 import glob
@@ -46,20 +46,20 @@ def extract_files():
                     src = os.path.join(train_or_test, classname, filename)
                     dest = os.path.join(train_or_test, classname,
                         filename_no_ext + '-%04d.jpg')
-                    call(["C:\ffmpeg\bin\ffmpeg.exe", "-i", src, dest])
+                    call(["ffmpeg", "-i", src, dest])
 
                 # Now get how many frames it is.
                 nb_frames = get_nb_frames_for_video(video_parts)
 
                 data_file.append([train_or_test, classname, filename_no_ext, nb_frames])
 
-                print("Generated %d frames for %s" % (nb_frames, filename_no_ext))
+                print("Generated {} frames for {}".format(nb_frames, filename_no_ext))
 
     with open('data_file.csv', 'w') as fout:
         writer = csv.writer(fout)
         writer.writerows(data_file)
 
-    print("Extracted and wrote %d video files." % (len(data_file)))
+    print("Extracted and wrote {} video files.".format((len(data_file))))
 
 def get_nb_frames_for_video(video_parts):
     """Given video parts of an (assumed) already extracted video, return
@@ -73,7 +73,7 @@ def get_video_parts(video_path):
     """Given a full path to a video, return its parts."""
     parts = video_path.split(os.path.sep)
     filename = parts[2]
-    filename_no_ext = filename.split('.')[0]
+    filename_no_ext = os.path.splitext(filename)[0]
     classname = parts[1]
     train_or_test = parts[0]
 

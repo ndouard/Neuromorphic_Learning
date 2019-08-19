@@ -102,3 +102,18 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# R history
+.Rhistory
+
+# Neural network data
+video-classification/data/train/*
+!video-classification/data/train/README
+video-classification/data/test/*
+!video-classification/data/test/README
+video-classification/data/logs/*
+!video-classification/data/logs/README
+video-classification/data/checkpoints/*
+video-classification/data/sequences/*
+checkpoints/*
+!checkpoints/README
